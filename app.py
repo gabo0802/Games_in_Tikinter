@@ -1,5 +1,6 @@
 from tkinter import *
 from colors import *  # Import colors from the colors.py file
+from games import *
 
 class GameApp(Frame):
     def __init__(self, master=None):
@@ -38,15 +39,37 @@ class GameApp(Frame):
         self.current_frame = None
         self.show_frame("Tic Tac Toe")
 
+    def create_frames(self):
+        # Create frames for each game and store them in the frames dictionary
+        for game in ["Tic Tac Toe", "Wordle", "Anagrams"]:
+            frame = Frame(self.main_frame, background=orange_0)
+            self.frames[game] = frame
+
+        # Initialize a TicTacToe object for the "Tic Tac Toe" game
+        self.tic_tac_toe = TicTacToe(self.frames["Tic Tac Toe"])
+        self.tic_tac_toe.create_board()
+
+        # Show the first game frame (Tic Tac Toe) by default
+        self.current_frame = None
+        self.show_frame("Tic Tac Toe")
+
     def show_frame(self, game):
-        # Display the frame of the selected game
         frame = self.frames[game]
         if self.current_frame:
             self.current_frame.pack_forget()
+
         frame.pack(fill=BOTH, expand=True)
         self.current_frame = frame
 
-        # Update the selected game and highlight the corresponding button
+        if game == "Tic Tac Toe":
+            self.tic_tac_toe.pack_forget()  # Remove the old TicTacToe board
+            self.tic_tac_toe = TicTacToe(frame)  # Create a new TicTacToe object
+            self.tic_tac_toe.create_board()  # Create the new board
+            self.tic_tac_toe.pack()  # Pack the new board
+        else:
+            # Add logic for other games here
+            pass
+
         for game_name, button in self.buttons.items():
             if game_name == game:
                 button.config(background=blue_2)
