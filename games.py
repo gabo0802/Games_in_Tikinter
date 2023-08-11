@@ -1,5 +1,6 @@
 from tkinter import *
 import random
+from colors import *
 
 class TicTacToe(Frame):
     def __init__(self, master=None):
@@ -12,12 +13,15 @@ class TicTacToe(Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        self.title_label = Label(self, text="Tic Tac Toe", font=("Helvetica", 16))
-        self.title_label.grid(row=0, column=0, columnspan=3, pady=10)
+        self.title_label = Label(self, text="Tic Tac Toe", font="Arial 16 bold")
+        self.title_label.grid(row=1, column=0, rowspan=1, columnspan=3,  pady=20)
+
+        self.margin_frame = Frame(self)
+        self.margin_frame.config(highlightbackground=orange_0)
+        self.margin_frame.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
 
         self.board_frame = Frame(self)
         self.create_board()
-        self.board_frame.grid(row=1, column=0, columnspan=3)
 
 
     def create_board(self):
@@ -26,7 +30,7 @@ class TicTacToe(Frame):
                 for col in range(3):
                     button = Button(self, text="", font=("Helvetica", 20), width=5, height=2,
                                     command=lambda r=row, c=col: self.make_move(r, c))
-                    button.grid(row=row, column=col, padx=5, pady=5)
+                    button.grid(row=row+2, column=col, padx=5, pady=5)
 
 
 
@@ -50,7 +54,7 @@ class TicTacToe(Frame):
 
     def update_button(self, row, col):
         # Update the text of the button with the current player's symbol
-        button = self.grid_slaves(row=row, column=col)[0]
+        button = self.grid_slaves(row=row+2, column=col)[0]
         button.config(text=self.board[row][col], state=DISABLED)
 
     def computer_move(self):
@@ -93,7 +97,7 @@ class TicTacToe(Frame):
         top = Toplevel(self)
         for row in range(3):
             for col in range(3):
-                button = self.grid_slaves(row=row, column=col)[0]
+                button = self.grid_slaves(row=row+2, column=col)[0]
                 button.config(state=DISABLED)
 
         top.title("Game Over")
