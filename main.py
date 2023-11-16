@@ -2,6 +2,10 @@ import app
 import colors
 from tkinter import *
 
+# Python ≥3.5 is required
+import sys
+assert sys.version_info >= (3, 5)
+
 
 class Window(Tk):
     def __init__(self, *args, **kwargs):
